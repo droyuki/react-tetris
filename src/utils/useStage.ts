@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 export const useStage: Function = (
   pc: PlayerContext,
-  // reset: Function,
+  reset: Function,
 ): Array<Function | StageType> => {
   const [stage, setStage] = useState(createStage());
 
@@ -27,11 +27,16 @@ export const useStage: Function = (
         });
       });
 
+      //check collision
+      if (pc.collided) {
+        reset();
+      }
+
       return newStage;
     };
 
     setStage(prev => updateStage(prev));
-  }, [pc]);
+  }, [pc, reset]);
 
   return [stage, setStage];
 };

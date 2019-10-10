@@ -3,14 +3,18 @@ import React, { useState } from 'react';
 import Stage from './Stage';
 import StartButton from './StartButton';
 import createStage from '../utils/createStage';
+import { Position } from '../types';
 import { StyledTetris } from './style/StyledTetris';
 import { StyledWrapper } from './style/StyledWrapper';
+import { checkCollision } from '../utils/stageUtil';
 import { usePlayerContext } from '../utils/usePlayerContext';
 import { useStage } from '../utils/useStage';
 
 const Tetris: React.FC = () => {
-  // const [dropTime, setDropTime] = useState(null);
-  const [gg] = useState(false);
+  const [, setDropTime] = useState(null);
+  const [gg, setGG] = useState(false);
+
+  //Q: 這種解構賦值要怎麼訂type?
   const [playerContext, updatePosition, reset] = usePlayerContext();
   const [stage, setStage] = useStage(playerContext, reset);
 
@@ -19,13 +23,32 @@ const Tetris: React.FC = () => {
   const start = (): void => {
     setStage(createStage());
     reset();
+    setGG(false);
   };
 
   const moveTetris = (direction: number): void => {
-    updatePosition({ x: direction, y: 0 });
+    const positionDiff: Position = { x: direction, y: 0 };
+    if (!checkCollision(playerContext, stage, positionDiff)) {
+      updatePosition(positionDiff);
+    }
   };
+
   const drop = (): void => {
-    updatePosition({ x: 0, y: 1, collide: false });
+    const positionDiff: Position = { x: 0, y: 1 };
+    if (!checkCollision(playerContext, stage, positionDiff)) {
+      updatePosition({ ...positionDiff, collided: false });
+    } else {
+      //到頂了
+      //上面沒訂type，這裡吃不到position type QQ
+      if (playerContext.position.y < 1) {
+        setGG(true);
+        setDropTime(null);
+        alert('GG!');
+      }
+
+      //到底了
+      updatePosition({ x: 0, y: 0, collided: true });
+    }
   };
   const dropTetris = (): void => {
     drop();

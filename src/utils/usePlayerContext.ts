@@ -1,12 +1,10 @@
-import { PlayerContext } from '../types';
+import { PlayerContext, Position } from '../types';
 import { STAGE_WIDTH } from './createStage';
 import { TetrisConfig } from './constants';
 import { randomTetris } from './stageUtil';
 import { useState, useCallback } from 'react';
 
-type Param = {
-  x: number;
-  y: number;
+type Param = Position & {
   collided: boolean;
 };
 

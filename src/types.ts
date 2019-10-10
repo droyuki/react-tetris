@@ -1,5 +1,10 @@
-export type Shape = Array<Array<string | number>>;
+export type Cell = Array<string | number>;
+export type Shape = Array<Cell>;
 export type StageType = Array<Shape>;
+export type Position = {
+  x: number;
+  y: number;
+};
 
 export interface TetrisInterface {
   shape: Shape;
