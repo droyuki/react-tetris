@@ -1,9 +1,9 @@
-import { StageType } from '../types';
+import { Stage } from '../types';
 
 export const STAGE_HEIGHT = 20;
 export const STAGE_WIDTH = 12;
 
-const createStage = (): StageType =>
+const createStage = (): Stage =>
   Array.from(Array(STAGE_HEIGHT), () =>
     new Array(STAGE_WIDTH).fill([0, 'clear']),
   );

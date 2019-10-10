@@ -1,27 +1,22 @@
 export type Cell = Array<string | number>;
 export type Shape = Array<Cell>;
-export type StageType = Array<Shape>;
-export type Position = {
+export type Stage = Array<Shape>;
+export interface Position {
   x: number;
   y: number;
-};
+}
 
-export interface TetrisInterface {
+export interface Tetris {
   shape: Shape;
   color: string;
 }
 
-export interface TetrisConfigInterface {
-  [key: string]: TetrisInterface;
-}
-
-export interface PositionInterface {
-  x: number;
-  y: number;
+export interface TetrisConfig {
+  [key: string]: Tetris;
 }
 
 export interface PlayerContext {
-  position: PositionInterface;
+  position: Position;
   tetris: Shape;
   collided: boolean;
 }

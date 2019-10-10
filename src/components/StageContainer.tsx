@@ -7,7 +7,7 @@ interface Props {
   stage: Array<Array<Array<string | number>>>;
 }
 
-const Stage: React.FC<Props> = ({ stage }) => {
+const StageContainer: React.FC<Props> = ({ stage }) => {
   return (
     <StyledStage width={stage[0].length} height={stage.length}>
       {stage.map((row, i) =>
@@ -17,8 +17,8 @@ const Stage: React.FC<Props> = ({ stage }) => {
   );
 };
 
-Stage.propTypes = {
+StageContainer.propTypes = {
   stage: PropTypes.array.isRequired,
 };
 
-export default Stage;
+export default StageContainer;

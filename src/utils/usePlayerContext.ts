@@ -1,33 +1,37 @@
-import { PlayerContext, Position, StageType } from '../types';
+import { PlayerContext, Position, Stage } from '../types';
 import { STAGE_WIDTH } from './createStage';
-import { TetrisConfig } from './constants';
+import { tetrisConfig } from './constants';
 import { randomTetris } from './stageUtil';
 import { useState, useCallback } from 'react';
 import transpose from './transpose';
 
-type Param = Position & {
-  collided: boolean;
-};
+type Param = Position & { collided?: boolean };
+type ReturnType = [
+  PlayerContext,
+  (p: Param) => void,
+  () => void,
+  (stage: Stage, dir: number) => void,
+];
 
-export const usePlayerContext: Function = (): Array<
-  PlayerContext | Function
-> => {
-  const [playerContext, setPlayerContext] = useState({
+export const usePlayerContext = (): ReturnType => {
+  const [playerContext, setPlayerContext] = useState<PlayerContext>({
     position: { x: 0, y: 0 },
-    tetris: TetrisConfig[0].shape,
+    tetris: tetrisConfig[0].shape,
     collided: false,
   });
 
   const updatePosition = (p: Param): void => {
     const { x, y, collided } = p;
-    setPlayerContext(prev => ({
-      ...prev,
-      collided,
-      position: {
-        x: prev.position.x + x,
-        y: prev.position.y + y,
-      },
-    }));
+    setPlayerContext(
+      (prev: PlayerContext): PlayerContext => ({
+        ...prev,
+        ...(collided !== undefined && { collided }),
+        position: {
+          x: prev.position.x + x,
+          y: prev.position.y + y,
+        },
+      }),
+    );
   };
 
   const reset = useCallback(() => {
@@ -38,9 +42,11 @@ export const usePlayerContext: Function = (): Array<
     });
   }, []);
 
-  const rotateTetris = (stage: StageType, direction: number): void => {
+  const rotateTetris = (stage: Stage, direction: number): void => {
     //deep clone
-    const clonedContext = JSON.parse(JSON.stringify(playerContext));
+    const clonedContext: PlayerContext = JSON.parse(
+      JSON.stringify(playerContext),
+    );
     clonedContext.tetris = transpose(clonedContext.tetris, direction);
 
     setPlayerContext(clonedContext);

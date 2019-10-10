@@ -1,22 +1,22 @@
 import createStage from './createStage';
-import { StageType, PlayerContext } from '../types';
+import { Stage, PlayerContext, Cell, Shape } from '../types';
 import { useState, useEffect } from 'react';
 
 export const useStage: Function = (
   pc: PlayerContext,
   reset: Function,
-): Array<Function | StageType> => {
-  const [stage, setStage] = useState(createStage());
+): [Stage, Function] => {
+  const [stage, setStage] = useState<Stage>(createStage());
 
-  useEffect(() => {
-    const updateStage = (prev: StageType): StageType => {
-      const newStage = prev.map(row =>
-        row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell)),
+  useEffect((): void => {
+    const updateStage = (prev: Stage): Stage => {
+      const newStage = prev.map((row: Shape) =>
+        row.map((cell: Cell) => (cell[1] === 'clear' ? [0, 'clear'] : cell)),
       );
 
       //render  tetris cell
-      pc.tetris.forEach((row: Array<number | string>, y: number) => {
-        row.forEach((cell: number | string, x: number) => {
+      pc.tetris.forEach((row: Array<number | string>, y: number): void => {
+        row.forEach((cell: number | string, x: number): void => {
           if (cell !== 0) {
             //occupied
             newStage[y + pc.position.y][x + pc.position.x] = [
@@ -35,7 +35,7 @@ export const useStage: Function = (
       return newStage;
     };
 
-    setStage(prev => updateStage(prev));
+    setStage((prev: Stage): Stage => updateStage(prev));
   }, [pc, reset]);
 
   return [stage, setStage];

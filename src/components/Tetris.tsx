@@ -1,27 +1,26 @@
 import Display from './Display';
-import React, { useState } from 'react';
-import Stage from './Stage';
+import React, { useState, ReactElement } from 'react';
+import StageContainer from './StageContainer';
 import StartButton from './StartButton';
 import createStage from '../utils/createStage';
-import { Position } from '../types';
+import { Position, Stage } from '../types';
 import { StyledTetris } from './style/StyledTetris';
 import { StyledWrapper } from './style/StyledWrapper';
 import { checkCollision } from '../utils/stageUtil';
 import { usePlayerContext } from '../utils/usePlayerContext';
 import { useStage } from '../utils/useStage';
 
-const Tetris: React.FC = () => {
+const Tetris: React.FC = (): ReactElement => {
   const [, setDropTime] = useState(null);
   const [gg, setGG] = useState(false);
 
-  //Q: 解構賦值要怎麼訂type?
   const [
     playerContext,
     updatePosition,
     reset,
     rotateTetris,
   ] = usePlayerContext();
-  const [stage, setStage] = useStage(playerContext, reset);
+  const [stage, setStage]: [Stage, Function] = useStage(playerContext, reset);
 
   console.log('!!!!Render');
 
@@ -44,7 +43,6 @@ const Tetris: React.FC = () => {
       updatePosition({ ...positionDiff, collided: false });
     } else {
       //到頂了
-      //上面沒訂type，這裡吃不到position type QQ
       if (playerContext.position.y < 1) {
         setGG(true);
         setDropTime(null);
@@ -58,15 +56,9 @@ const Tetris: React.FC = () => {
     drop();
   };
 
-  // const rotateTetris = (stage: StageType, direction: number): void => {
-  //   const rotated = rotate(stage, direction);
-  //   updatePosition(rotated);
-  // };
-
   const keyDown = (e: React.KeyboardEvent<object>): void => {
     const { keyCode } = e;
 
-    console.log(keyCode);
     if (!gg) {
       if (keyCode === 37) {
         moveTetris(-1);
@@ -91,7 +83,7 @@ const Tetris: React.FC = () => {
       onKeyDown={(e): void => keyDown(e)}
     >
       <StyledTetris>
-        <Stage stage={stage} />
+        <StageContainer stage={stage} />
         <aside>
           {gg ? (
             <Display gg />

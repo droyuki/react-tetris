@@ -1,11 +1,12 @@
-type TwoDArray = Array<Array<string | number>>;
+import { Cell } from '../types';
+type TwoDArray = Array<Cell>;
 
 const transpose = (matrix: TwoDArray, direction: number): TwoDArray => {
-  const rotated = matrix.map((_, i: number) => matrix.map(col => col[i]));
+  const rotated = matrix.map((_, i: number): Cell => matrix.map(col => col[i]));
 
   if (direction > 0) {
     //clockwise
-    return rotated.map(row => row.reverse());
+    return rotated.map((row: Cell): Cell => row.reverse());
   }
   return rotated.reverse();
 };
