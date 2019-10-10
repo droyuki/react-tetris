@@ -1,13 +1,14 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { StyledDisplay } from './style/StyledDisplay';
 
 interface Props {
   text?: string;
-  gameOver?: boolean;
+  gg?: boolean;
 }
-const Display: React.FC<Props> = ({ gameOver, text }) => {
-  return <StyledDisplay gameOver={gameOver}>{text}</StyledDisplay>;
+const Display: React.FC<Props> = (props: Props) => {
+  const { gg, text } = props;
+  return <StyledDisplay gg={gg}>{text}</StyledDisplay>;
 };
 
 Display.propTypes = {

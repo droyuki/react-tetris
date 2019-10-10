@@ -10,7 +10,8 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
-    "typescript": "3.6.3"
+    "typescript": "3.6.3",
+    "styled-components": "4.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,7 +42,6 @@
     "eslint-config-prettier": "6.4.0",
     "eslint-config-react": "1.1.7",
     "eslint-plugin-prettier": "3.1.1",
-    "prettier": "1.18.2",
-    "styled-components": "4.4.0"
+    "prettier": "1.18.2"
   }
 }

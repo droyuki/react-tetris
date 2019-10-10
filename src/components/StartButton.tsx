@@ -1,25 +1,17 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { StyledStartButton } from './style/StyledStartButton';
 
 interface Props {
-  cb: Function;
+  onClick: (e: React.MouseEvent) => void;
 }
 
-const StartButton: React.FC<Props> = ({ cb }) => {
-  return (
-    <StyledStartButton
-      onClick={() => {
-        cb();
-      }}
-    >
-      Start!
-    </StyledStartButton>
-  );
+const StartButton: React.FC<Props> = ({ onClick }) => {
+  return <StyledStartButton onClick={onClick}>Start!</StyledStartButton>;
 };
 
 StartButton.propTypes = {
-  cb: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default StartButton;

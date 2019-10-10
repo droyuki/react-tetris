@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface Props {
-  gameOver?: boolean;
+  gg?: boolean;
 }
 
 export const StyledDisplay = styled.div<Props>`
@@ -14,7 +14,7 @@ export const StyledDisplay = styled.div<Props>`
   min-height: 30px;
   width: 100%;
   border-radius: 20px;
-  color: ${props => (props.gameOver ? 'red' : '#999')};
+  color: ${(props: Props): string => (props.gg ? 'red' : '#999')};
   background: #000;
   font-family: Pixel, Arial, Helvetica, sans-serif;
   font-size: 0.8rem;

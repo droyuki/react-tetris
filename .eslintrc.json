@@ -13,8 +13,7 @@
     "jest": true
   },
   "rules": {
-    "prettier/prettier": ["error", { "singleQuote": true }],
-    "trailing-comma": [true, { "multiline": "always", "singleline": "never" }]
+    "prettier/prettier": [2, { "singleQuote": true }]
   },
   "settings": {
     "react": {
