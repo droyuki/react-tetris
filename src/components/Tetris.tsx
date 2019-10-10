@@ -14,8 +14,13 @@ const Tetris: React.FC = () => {
   const [, setDropTime] = useState(null);
   const [gg, setGG] = useState(false);
 
-  //Q: 這種解構賦值要怎麼訂type?
-  const [playerContext, updatePosition, reset] = usePlayerContext();
+  //Q: 解構賦值要怎麼訂type?
+  const [
+    playerContext,
+    updatePosition,
+    reset,
+    rotateTetris,
+  ] = usePlayerContext();
   const [stage, setStage] = useStage(playerContext, reset);
 
   console.log('!!!!Render');
@@ -43,7 +48,6 @@ const Tetris: React.FC = () => {
       if (playerContext.position.y < 1) {
         setGG(true);
         setDropTime(null);
-        alert('GG!');
       }
 
       //到底了
@@ -54,9 +58,15 @@ const Tetris: React.FC = () => {
     drop();
   };
 
-  const move = (e: React.KeyboardEvent<object>): void => {
+  // const rotateTetris = (stage: StageType, direction: number): void => {
+  //   const rotated = rotate(stage, direction);
+  //   updatePosition(rotated);
+  // };
+
+  const keyDown = (e: React.KeyboardEvent<object>): void => {
     const { keyCode } = e;
 
+    console.log(keyCode);
     if (!gg) {
       if (keyCode === 37) {
         moveTetris(-1);
@@ -64,12 +74,22 @@ const Tetris: React.FC = () => {
         moveTetris(1);
       } else if (keyCode === 40) {
         dropTetris();
+      } else if (keyCode === 38) {
+        // up
+        rotateTetris(stage, 1);
+      } else if (keyCode === 90) {
+        //z
+        rotateTetris(stage, -1);
       }
     }
   };
 
   return (
-    <StyledWrapper role="button" tabIndex={0} onKeyDown={(e): void => move(e)}>
+    <StyledWrapper
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e): void => keyDown(e)}
+    >
       <StyledTetris>
         <Stage stage={stage} />
         <aside>

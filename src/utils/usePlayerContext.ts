@@ -1,8 +1,9 @@
-import { PlayerContext, Position } from '../types';
+import { PlayerContext, Position, StageType } from '../types';
 import { STAGE_WIDTH } from './createStage';
 import { TetrisConfig } from './constants';
 import { randomTetris } from './stageUtil';
 import { useState, useCallback } from 'react';
+import transpose from './transpose';
 
 type Param = Position & {
   collided: boolean;
@@ -37,5 +38,13 @@ export const usePlayerContext: Function = (): Array<
     });
   }, []);
 
-  return [playerContext, updatePosition, reset];
+  const rotateTetris = (stage: StageType, direction: number): void => {
+    //deep clone
+    const clonedContext = JSON.parse(JSON.stringify(playerContext));
+    clonedContext.tetris = transpose(clonedContext.tetris, direction);
+
+    setPlayerContext(clonedContext);
+  };
+
+  return [playerContext, updatePosition, reset, rotateTetris];
 };

@@ -8,7 +8,7 @@ interface Props {
 }
 const Display: React.FC<Props> = (props: Props) => {
   const { gg, text } = props;
-  return <StyledDisplay gg={gg}>{text}</StyledDisplay>;
+  return <StyledDisplay gg={gg}>{gg ? 'Game Over' : text}</StyledDisplay>;
 };
 
 Display.propTypes = {
