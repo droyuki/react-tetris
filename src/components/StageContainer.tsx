@@ -9,7 +9,11 @@ interface Props {
 
 const StageContainer: React.FC<Props> = ({ stage }) => {
   return (
-    <StyledStage width={stage[0].length} height={stage.length}>
+    <StyledStage
+      className="stage-container"
+      width={stage[0].length}
+      height={stage.length}
+    >
       {stage.map((row, i) =>
         row.map((cell, j) => <Cell key={`${i}_${j}`} type={cell[0]} />),
       )}

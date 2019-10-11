@@ -9,6 +9,7 @@ import { StyledWrapper } from './style/StyledWrapper';
 import { checkCollision } from '../utils/stageUtil';
 import { usePlayerContext } from '../utils/usePlayerContext';
 import { useStage } from '../utils/useStage';
+import { useSwipeable } from 'react-swipeable';
 
 const Tetris: React.FC = (): ReactElement => {
   const [, setDropTime] = useState(null);
@@ -76,13 +77,30 @@ const Tetris: React.FC = (): ReactElement => {
     }
   };
 
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      moveTetris(-1);
+    },
+    onSwipedRight: () => {
+      moveTetris(1);
+    },
+    onSwipedDown: () => {
+      dropTetris();
+    },
+    onSwipedUp: () => {
+      rotateTetris(stage, 1);
+    },
+  });
+
   return (
     <StyledWrapper
+      className="app"
       role="button"
       tabIndex={0}
       onKeyDown={(e): void => keyDown(e)}
+      {...swipeHandlers}
     >
-      <StyledTetris>
+      <StyledTetris className="game-panel">
         <StageContainer stage={stage} />
         <aside>
           {gg ? (
