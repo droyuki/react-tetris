@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+![image](https://github.com/droyuki/react-tetris/blob/develop/src/image/screenshot.gif)
+
 ## Available Scripts
 
 In the project directory, you can run:
