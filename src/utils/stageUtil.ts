@@ -1,6 +1,9 @@
 import { tetrisConfig } from './constants';
 import { Cell, PlayerContext, Position, Stage, Tetris } from '../types';
 
+export const STAGE_HEIGHT = 20;
+export const STAGE_WIDTH = 12;
+
 const checkExist = (key: string | number): boolean => key in tetrisConfig;
 
 export const getTetris = (key: string | number): Tetris => {
@@ -16,6 +19,11 @@ export const randomTetris = (): Tetris => {
   const random: number = Math.floor(Math.random() * tetrisPool.length);
   return getTetris(tetrisPool[random]);
 };
+
+export const createStage = (): Stage =>
+  Array.from(Array(STAGE_HEIGHT), () =>
+    new Array(STAGE_WIDTH).fill([0, 'clear']),
+  );
 
 export const checkCollision = (
   pc: PlayerContext,

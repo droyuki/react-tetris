@@ -2,11 +2,10 @@ import Display from './Display';
 import React, { useState, ReactElement } from 'react';
 import StageContainer from './StageContainer';
 import StartButton from './StartButton';
-import createStage from '../utils/createStage';
 import { Position, Stage } from '../types';
 import { StyledTetris } from './style/StyledTetris';
 import { StyledWrapper } from './style/StyledWrapper';
-import { checkCollision } from '../utils/stageUtil';
+import { createStage, checkCollision } from '../utils/stageUtil';
 import { usePlayerContext } from '../utils/usePlayerContext';
 import { useStage } from '../utils/useStage';
 import { useSwipeable } from 'react-swipeable';
@@ -22,8 +21,6 @@ const Tetris: React.FC = (): ReactElement => {
     rotateTetris,
   ] = usePlayerContext();
   const [stage, setStage]: [Stage, Function] = useStage(playerContext, reset);
-
-  console.log('!!!!Render');
 
   const start = (): void => {
     setStage(createStage());

@@ -1,7 +1,6 @@
 import { PlayerContext, Position, Stage } from '../types';
-import { STAGE_WIDTH } from './createStage';
 import { tetrisConfig } from './constants';
-import { randomTetris } from './stageUtil';
+import { randomTetris, checkCollision, STAGE_WIDTH } from './stageUtil';
 import { useState, useCallback } from 'react';
 import transpose from './transpose';
 
@@ -48,6 +47,22 @@ export const usePlayerContext = (): ReturnType => {
       JSON.stringify(playerContext),
     );
     clonedContext.tetris = transpose(clonedContext.tetris, direction);
+
+    let offset = 1;
+
+    // 有碰撞就往左右移動，直到無法移動
+    while (checkCollision(clonedContext, stage, { x: 0, y: 0 })) {
+      // +1, -1 ,+2, -2, ...
+      // offset 超過方塊的 N x N area表示無法旋轉，回傳原本的context
+      clonedContext.position.x += offset;
+      offset = -(offset + (offset > 0 ? 1 : -1));
+
+      if (offset > clonedContext.tetris[0].length) {
+        transpose(clonedContext.tetris, -direction);
+        clonedContext.position.x = playerContext.position.x;
+        return;
+      }
+    }
 
     setPlayerContext(clonedContext);
   };

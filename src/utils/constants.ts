@@ -1,6 +1,7 @@
 import { TetrisConfig } from '../types';
 
-//RGB color
+// RGB color
+// each tetromino is a N x N area
 export const tetrisConfig: TetrisConfig = {
   0: { shape: [[0]], color: '0, 0, 0' },
   I: {

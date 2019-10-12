@@ -1,4 +1,4 @@
-import createStage from './createStage';
+import { createStage } from './stageUtil';
 import { Stage, PlayerContext, Cell, Shape } from '../types';
 import { useState, useEffect } from 'react';
 
