@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { memo } from 'react';
 import { StyledDisplay } from './style/StyledDisplay';
 
 interface Props {
@@ -15,4 +15,4 @@ Display.propTypes = {
   text: PropTypes.string,
 };
 
-export default Display;
+export default memo(Display);

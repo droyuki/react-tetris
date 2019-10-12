@@ -1,6 +1,6 @@
 import Cell from './Cell';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { memo } from 'react';
 import { StyledStage } from './style/StyledStage';
 
 interface Props {
@@ -25,4 +25,4 @@ StageContainer.propTypes = {
   stage: PropTypes.array.isRequired,
 };
 
-export default StageContainer;
+export default memo(StageContainer);

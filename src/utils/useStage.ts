@@ -7,17 +7,17 @@ export const useStage: Function = (
   reset: Function,
 ): [Stage, Function, number] => {
   const [stage, setStage] = useState<Stage>(createStage());
-  const [clearedRows, setClearedRows] = useState<number>(0);
+  const [clearedLines, setClearedLines] = useState<number>(0);
 
   useEffect((): void => {
-    setClearedRows(0);
+    setClearedLines(0);
 
     const swipeRows = (stage: Stage): Stage =>
       stage.reduce((counter: Stage, row: Shape): Stage => {
         const isFullRow = row.every((cell: Cell) => cell[0] !== 0);
 
         if (isFullRow) {
-          setClearedRows(prev => prev + 1);
+          setClearedLines(prev => prev + 1);
 
           counter.unshift(EMPTY_ROW);
           return counter;
@@ -58,5 +58,5 @@ export const useStage: Function = (
     setStage((prev: Stage): Stage => updateStage(prev));
   }, [pc, reset]);
 
-  return [stage, setStage, clearedRows];
+  return [stage, setStage, clearedLines];
 };

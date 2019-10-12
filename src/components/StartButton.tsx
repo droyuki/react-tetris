@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { memo } from 'react';
 import { StyledStartButton } from './style/StyledStartButton';
 
 interface Props {
@@ -14,4 +14,4 @@ StartButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export default StartButton;
+export default memo(StartButton);

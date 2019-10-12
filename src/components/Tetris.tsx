@@ -1,17 +1,19 @@
 import Display from './Display';
-import React, { useState, ReactElement } from 'react';
+import React, { useState, ReactElement, memo } from 'react';
 import StageContainer from './StageContainer';
 import StartButton from './StartButton';
 import { Position, Stage } from '../types';
 import { StyledTetris } from './style/StyledTetris';
 import { StyledWrapper } from './style/StyledWrapper';
 import { createStage, checkCollision } from '../utils/stageUtil';
+import { useGameState } from '../utils/useGameState';
+import { useInterval } from '../utils/useInterval';
 import { usePlayerContext } from '../utils/usePlayerContext';
 import { useStage } from '../utils/useStage';
 import { useSwipeable } from 'react-swipeable';
 
 const Tetris: React.FC = (): ReactElement => {
-  const [, setDropTime] = useState(null);
+  const [dropTime, setDropTime] = useState<number | null>(null);
   const [gg, setGG] = useState(false);
 
   const [
@@ -20,11 +22,22 @@ const Tetris: React.FC = (): ReactElement => {
     reset,
     rotateTetris,
   ] = usePlayerContext();
-  const [stage, setStage]: [Stage, Function] = useStage(playerContext, reset);
+  const [stage, setStage, clearedLines]: [Stage, Function, number] = useStage(
+    playerContext,
+    reset,
+  );
+
+  const [score, setScore, level, setLevel, lines, setLines] = useGameState(
+    clearedLines,
+  );
 
   const start = (): void => {
     setStage(createStage());
+    setDropTime(1000);
     reset();
+    setScore(0);
+    setLines(0);
+    setLevel(0);
     setGG(false);
   };
 
@@ -35,7 +48,14 @@ const Tetris: React.FC = (): ReactElement => {
     }
   };
 
+  const getSpeed = (): number => 1000 / (level + 1) + 200;
+
   const drop = (): void => {
+    if (lines > (level + 1) * 10) {
+      setLevel(prev => prev + 1);
+      setDropTime(getSpeed());
+    }
+
     const positionDiff: Position = { x: 0, y: 1 };
     if (!checkCollision(playerContext, stage, positionDiff)) {
       updatePosition({ ...positionDiff, collided: false });
@@ -50,7 +70,9 @@ const Tetris: React.FC = (): ReactElement => {
       updatePosition({ x: 0, y: 0, collided: true });
     }
   };
+
   const dropTetris = (): void => {
+    setDropTime(null);
     drop();
   };
 
@@ -74,6 +96,13 @@ const Tetris: React.FC = (): ReactElement => {
     }
   };
 
+  const keyUp = (e: React.KeyboardEvent<object>): void => {
+    const { keyCode } = e;
+    if (keyCode === 40 && !gg) {
+      setDropTime(getSpeed());
+    }
+  };
+
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
       moveTetris(-1);
@@ -89,12 +118,17 @@ const Tetris: React.FC = (): ReactElement => {
     },
   });
 
+  useInterval(() => {
+    drop();
+  }, dropTime);
+
   return (
     <StyledWrapper
       className="app"
       role="button"
       tabIndex={0}
       onKeyDown={(e): void => keyDown(e)}
+      onKeyUp={(e): void => keyUp(e)}
       {...swipeHandlers}
     >
       <StyledTetris className="game-panel">
@@ -104,9 +138,9 @@ const Tetris: React.FC = (): ReactElement => {
             <Display gg />
           ) : (
             <>
-              <Display text="Score" />
-              <Display text="Rows" />
-              <Display text="Level" />
+              <Display text={`Score:  ${score}`} />
+              <Display text={`Lines:  ${lines}`} />
+              <Display text={`Level:  ${level}`} />
             </>
           )}
           <StartButton onClick={start} />
@@ -116,4 +150,4 @@ const Tetris: React.FC = (): ReactElement => {
   );
 };
 
-export default Tetris;
+export default memo(Tetris);
