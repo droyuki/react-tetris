@@ -4,6 +4,8 @@ import { Cell, PlayerContext, Position, Stage, Tetris } from '../types';
 export const STAGE_HEIGHT = 20;
 export const STAGE_WIDTH = 12;
 
+export const EMPTY_ROW = new Array(STAGE_WIDTH).fill([0, 'clear']);
+
 const checkExist = (key: string | number): boolean => key in tetrisConfig;
 
 export const getTetris = (key: string | number): Tetris => {
@@ -21,9 +23,7 @@ export const randomTetris = (): Tetris => {
 };
 
 export const createStage = (): Stage =>
-  Array.from(Array(STAGE_HEIGHT), () =>
-    new Array(STAGE_WIDTH).fill([0, 'clear']),
-  );
+  Array.from(Array(STAGE_HEIGHT), () => EMPTY_ROW);
 
 export const checkCollision = (
   pc: PlayerContext,
