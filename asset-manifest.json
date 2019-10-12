@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4bbfbd2d.chunk.css",
+    "main.js": "/static/js/main.55dfe482.chunk.js",
+    "main.js.map": "/static/js/main.55dfe482.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.9f1486de.js",
+    "runtime-main.js.map": "/static/js/runtime-main.9f1486de.js.map",
+    "static/js/2.10a2ecc9.chunk.js": "/static/js/2.10a2ecc9.chunk.js",
+    "static/js/2.10a2ecc9.chunk.js.map": "/static/js/2.10a2ecc9.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.837d861bb1c925b484a3dbe27ad298a5.js": "/precache-manifest.837d861bb1c925b484a3dbe27ad298a5.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.4bbfbd2d.chunk.css.map": "/static/css/main.4bbfbd2d.chunk.css.map",
+    "static/media/index.css": "/static/media/Pixel-LCD-7.e2897552.woff",
+    "static/media/bg.png": "/static/media/bg.935196ef.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9f1486de.js",
+    "static/js/2.10a2ecc9.chunk.js",
+    "static/css/main.4bbfbd2d.chunk.css",
+    "static/js/main.55dfe482.chunk.js"
+  ]
+}
